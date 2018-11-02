@@ -177,6 +177,19 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
     }
 
     @ReactMethod
+    public void updateMeta(ReadableArray tracks, final Promise callback) {
+        final ArrayList bundleList = Arguments.toList(tracks);
+        waitForConnection(() -> {
+            List<Track> trackList = Track.createTracks(getReactApplicationContext(), bundleList, binder.getRatingType());
+            if(trackList == null || trackList.isEmpty()) {
+                callback.reject("invalid_track_object", "Track is missing a required key");
+            }
+            binder.updateMeta(trackList.get(0));
+            callback.resolve(null);
+        });
+    }
+
+    @ReactMethod
     public void add(ReadableArray tracks, final String insertBeforeId, final Promise callback) {
         final ArrayList bundleList = Arguments.toList(tracks);
 

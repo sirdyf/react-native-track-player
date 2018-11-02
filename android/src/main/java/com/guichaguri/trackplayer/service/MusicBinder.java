@@ -3,7 +3,9 @@ package com.guichaguri.trackplayer.service;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import com.facebook.react.bridge.Promise;
+import com.guichaguri.trackplayer.service.models.Track;
 import com.guichaguri.trackplayer.service.player.ExoPlayback;
 
 /**
@@ -35,6 +37,10 @@ public class MusicBinder extends Binder {
         }
 
         return playback;
+    }
+
+    public void updateMeta(Track track) {
+        manager.onTrackUpdate(null, 0, track);
     }
 
     public void setupPlayer(Bundle bundle, Promise promise) {
